@@ -29,6 +29,18 @@ module Enumerable
         new_array
     end
 
+    def my_all
+        i = 0 
+        while i < self.size
+            # break something wrong
+            if yield(self[i]) == false || yield(self[i]) == nil
+                return false
+            end
+            i +=1
+        end
+        true
+    end
+
 end
 
 my_n_array = [1, 2, 3, 4]
