@@ -50,6 +50,13 @@ module Enumerable
         true
     end
 
+    def my_any?
+        return false if self.size < 1 
+        return true unless block_given?
+        my_each { |x| return true if yield(x)}
+        false
+    end
+
 end
 
 my_n_array = [1, 2, 3, 4]
@@ -65,9 +72,20 @@ numbers = [1, 2, 3, 4, 5, 6]
 # p numbers.my_select { |x| x > 4 }
 # p numbers.my_select { |x| x.odd?}
 
-p numbers.my_all? { |x| x > 0}
-p [ nil,true, 9].my_all?
-p [ nil,true, 9].all?
+# p numbers.my_all? { |x| x > 0}
+# p [ nil,true, 9].my_all?
+# p [ nil,true, 9].all?
 
-p [].my_all?
-p [].all?
+# p [].my_all?
+# p [].all?
+
+# p numbers.my_any? { |x| x > 0}
+# p [].my_any?   
+#TEST ANY?
+
+p %w[ant bear cat].any? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].any? { |word| word.length >= 4 } #=> true
+p %w[ant bear cat].any?(/d/)                        #=> false
+p [nil, true, 99].any?(Integer)                     #=> true
+p [nil, true, 99].any?                              #=> true
+p [].any?                                           #=> false
