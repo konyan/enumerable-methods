@@ -9,6 +9,7 @@ module Enumerable
     end
 
     def my_each_with_index
+        return to_enum(:my_each_with_index)  unless block_given?
         i=0
         while i< self.size
             yield(self[i],i)
@@ -46,20 +47,15 @@ end
 my_n_array = [1, 2, 3, 4]
 
 
-my_n_array.my_each do |x|
-    puts x
-end
-
-my_n_array.my_each_with_index do |x,index|
-    puts "#{x} , #{index}"
-end
+my_n_array.my_each_with_index
 
 # my_n_array.select { |x| puts x == 1}
 
 
 # TEST for my_select
-numbers = [1, 2, 3, 4, 5, 6]
-p numbers.my_select { |x| x.even? }
-p numbers.my_select { |x| x.odd?}
+# numbers = [1, 2, 3, 4, 5, 6]
+# p numbers.my_select { |x| x.even? }
+# p numbers.my_select { |x| x.odd?}
 
-p numbers.my_all { |x| x > 2}
+# p numbers.my_all { |x| x > 2}
+# p [nil, true, 9].my_all { |x| x == true}
