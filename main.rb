@@ -70,18 +70,25 @@ module Enumerable
         counter
     end
 
+    def my_map(arg  = nil)
+        return to_enum(:my_map) unless block_given?
+        arr = []
+        if arg.nil?
+            my_each {|x|  arr << yield(x) } 
+        else
+            my_each { |x| arr << arg.call(x) }
+        end
+        arr
+    end
 end
 
-my_n_array = [1,1, 2,2, 3, 4]
-
-
+# my_n_array = [1,1, 2,2, 3, 4]
 # my_n_array.my_each_with_index { |x , index| puts "#{x},#{index}" }
-
 # my_n_array.select { |x| puts x == 1}
 
 
 # TEST for my_select
-numbers = [1, 2, 3, 4, 5, 6]
+# numbers = [1, 2, 3, 4, 5, 6]
 # p numbers.my_select { |x| x > 4 }
 # p numbers.my_select { |x| x.odd?}
 
@@ -94,6 +101,7 @@ numbers = [1, 2, 3, 4, 5, 6]
 
 # p numbers.my_any? { |x| x > 0}
 # p [].my_any?   
+
 #TEST ANY?
 # p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
 # p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
@@ -112,7 +120,10 @@ numbers = [1, 2, 3, 4, 5, 6]
 
 #TEST COUNT
 ary = [1,1,2, 2, 4, 2]
-p ary.my_count               #=> 4
-p ary.my_count(2)            #=> 2
-p ary.my_count{ |x| x%2==0 } #=> 3
-p ary.count{ |x| x%2==0 } #=> 3
+# p ary.my_count               #=> 4
+# p ary.my_count(2)            #=> 2
+# p ary.my_count{ |x| x%2==0 } #=> 3
+# p ary.count{ |x| x%2==0 } #=> 3
+
+#TEST MAP
+p ary.my_map { |i| i*i }      #=> [1, 4, 9, 16]
