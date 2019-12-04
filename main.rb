@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Enumerable
+module Enumerable #:nodoc:
   def my_each
     i = 0
     while i < size
@@ -39,7 +39,7 @@ module Enumerable
   end
 
   def my_any?(arg = nil)
-    return false if self.size < 1 
+    return false if size < 1 
 
     return true unless block_given?
 
@@ -94,5 +94,11 @@ module Enumerable
     drop(init ? 0 : 1).my_each { |item| acc = yield(acc, item) }
     acc
   end
+end
 
+def multiply_els(arr)
+  multiplied_arr = arr
+  multiplied_arr.my_inject do |x, y|
+    x * y
+  end
 end
