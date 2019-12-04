@@ -64,7 +64,7 @@ module Enumerable #:nodoc:
     counter = 0
     my_each do |x|
       if block_given? && arg.nil?
-        counter += 1 if yield (x)
+        counter += 1 if yield(x)
       elsif !block_given? && arg
         counter += 1 if x == arg
       elsif !block_given? && arg.nil?
