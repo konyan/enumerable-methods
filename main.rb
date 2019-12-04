@@ -1,21 +1,21 @@
-#MY Enumerable Module
+# frozen_string_literal: true
 
 module Enumerable
-    def my_each
-        i=0;
-        while i < self.size
-            yield(self[i])
-            i+=1
-        end
-        self
+  def my_each
+    i = 0
+    while i < self.size
+      yield(self[i])
+        i += 1
     end
+    self
+  end
 
     def my_each_with_index
         return to_enum(:my_each_with_index) unless block_given?
-        i=0
-        while i< self.size
+        i = 0
+        while i < self.size
             yield(self[i],i)
-            i+=1
+            i += 1
         end
         self
     end

@@ -32,7 +32,4 @@ Layout/ExtraSpacing:
 Layout/MultilineMethodCallIndentation:
   Enabled: true
   EnforcedStyle: indented
-Layout/IndentationWidth:
-  Enabled: true
-  Width : 4 
   
