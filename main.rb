@@ -80,6 +80,13 @@ module Enumerable
         end
         arr
     end
+
+    def my_inject(*args)
+        init = args.size.positive?
+        acc = init ? args[0] : self[0]
+        drop(init ? 0 : 1).my_each { |item| acc = yield(acc, item) }
+        acc
+    end
 end
 
 # my_n_array = [1,1, 2,2, 3, 4]
@@ -127,3 +134,11 @@ ary = [1,1,2, 2, 4, 2]
 
 #TEST MAP
 p ary.my_map { |i| i*i }      #=> [1, 4, 9, 16]
+
+
+#TEST INJECT
+def multiply_els(arr)
+    arr.my_inject { |acc, item| acc * item }
+end
+
+# p multiply_els(ary)
