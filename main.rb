@@ -32,7 +32,7 @@ module Enumerable #:nodoc:
   def my_all?
     return true if size < 1 
 
-    return false if block_given? && self.nil? || !block_given?
+    return false if block_given? && nil? || !block_given?
 
     my_each { |x| return false unless yield(x) }
     true
