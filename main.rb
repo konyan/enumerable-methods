@@ -31,16 +31,14 @@ module Enumerable #:nodoc:
 
   def my_all?
     return true if size < 1 
-
     return false if block_given? && nil? || !block_given?
 
     my_each { |x| return false unless yield(x) }
     true
   end
 
-  def my_any?(arg = nil)
+  def my_any?
     return false if size < 1 
-
     return true unless block_given?
 
     my_each { |x| return true if yield(x) }
