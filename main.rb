@@ -30,7 +30,7 @@ module Enumerable #:nodoc:
   end
 
   def my_all?
-    return true if size < 1 
+    return true if size < 1
     return false if block_given? && nil? || !block_given?
 
     my_each { |x| return false unless yield(x) }
@@ -38,7 +38,7 @@ module Enumerable #:nodoc:
   end
 
   def my_any?
-    return false if size < 1 
+    return false if size < 1
     return true unless block_given?
 
     my_each { |x| return true if yield(x) }
@@ -51,7 +51,7 @@ module Enumerable #:nodoc:
     elsif !arg.nil?
       if arg.is_a?(Regexp)
         my_each { |x| return false if pattern =~ x.to_s }
-      else 
+      else
         my_each { |x| return false if x.is_a?(pattern) }
       end
     else
@@ -79,7 +79,7 @@ module Enumerable #:nodoc:
 
     arr = []
     if arg.nil?
-      my_each { |x| arr << yield(x) } 
+      my_each { |x| arr << yield(x) }
     else
       my_each { |x| arr << arg.call(x) }
     end
