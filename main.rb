@@ -24,14 +24,13 @@ module Enumerable
   def my_select
     return to_enum(:my_select) unless block_given?
 
-    i = 0
     new_array = []
     my_each { |x| new_array << x if yield(x) }
     new_array
   end
 
   def my_all?
-    return true if self.size < 1 
+    return true if size < 1 
 
     return false if block_given? && self.nil? || !block_given?
 
@@ -77,12 +76,12 @@ module Enumerable
     counter
   end
 
-  def my_map(arg  = nil)
+  def my_map(arg = nil)
     return to_enum(:my_map) unless block_given?
 
     arr = []
     if arg.nil?
-      my_each {|x|  arr << yield(x) } 
+      my_each { |x| arr << yield(x) } 
     else
       my_each { |x| arr << arg.call(x) }
     end
@@ -95,4 +94,5 @@ module Enumerable
     drop(init ? 0 : 1).my_each { |item| acc = yield(acc, item) }
     acc
   end
+
 end
