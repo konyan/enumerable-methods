@@ -24,27 +24,27 @@ module Enumerable
     return to_enum(:my_select) unless block_given?
       i = 0
       new_array = []
-      my_each{ |x| new_array << x if yield(x)}
+      my_each { |x| new_array << x if yield(x) }
       new_array
   end
 
   def my_all?
     return true if self.size < 1 
     return false if block_given? && self.nil? || !block_given?
-    my_each{ |x| return false unless yield(x)}
+    my_each { |x| return false unless yield(x) }
     true
   end
 
   def my_any?(arg = nil)
     return false if self.size < 1 
     return true unless block_given?
-    my_each { |x| return true if yield(x)}
+    my_each { |x| return true if yield(x) }
     false
   end
 
   def my_none?(arg = nil)
     if block_given?
-      my_each  {|x|  return false if yield(x)}
+      my_each { |x| return false if yield(x) }
     elsif !arg.nil?
       if arg.is_a?(Regexp)
         my_each { |x| return false if pattern =~ x.to_s }
@@ -52,20 +52,20 @@ module Enumerable
         my_each { |x| return false if x.is_a?(pattern) }
       end
     else
-      my_each { |x| return false if x}
+      my_each { |x| return false if x }
     end
-      true
+    true
   end
 
   def my_count(arg = nil)
     counter = 0
     my_each do |x|
       if block_given? && arg.nil?
-          counter +=1 if yield (x)
+        counter += 1 if yield (x)
       elsif !block_given? && arg
-          counter +=1 if x == arg
+        counter += 1 if x == arg
       elsif !block_given? && arg.nil?
-          counter +=1
+        counter += 1
       end
     end
     counter
