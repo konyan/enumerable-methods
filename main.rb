@@ -5,7 +5,7 @@ module Enumerable
     i = 0
     while i < size
       yield(self[i])
-        i += 1
+      i += 1
     end
     self
   end
@@ -16,8 +16,8 @@ module Enumerable
     i = 0
     while i < size
       yield(self[i], i)
-        i += 1
-      end
+      i += 1
+    end
     self
   end
 
@@ -43,7 +43,7 @@ module Enumerable
     return false if self.size < 1 
 
     return true unless block_given?
-    
+
     my_each { |x| return true if yield(x) }
     false
   end
