@@ -6,6 +6,7 @@ AllCops:
     - "Guardfile"
     - "Rakefile"
   DisplayCopNames: true
+  TargetRubyVersion: 2.2
 
 Metrics/LineLength:
   Max: 120
@@ -43,5 +44,3 @@ Layout/ExtraSpacing:
 Layout/MultilineMethodCallIndentation:
   Enabled: true
   EnforcedStyle: indented
-AllCops:
-  TargetRubyVersion: 2.2
