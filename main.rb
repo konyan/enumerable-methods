@@ -115,7 +115,6 @@ module Enumerable #:nodoc:
       nxt = self[0]
       start = 0
     end
-
     return unless block_given?
       [start...size].each do |i|
         acc = yield(acc, nxt)
