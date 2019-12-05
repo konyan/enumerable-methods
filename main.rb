@@ -135,6 +135,7 @@ module Enumerable #:nodoc:
   end
 end
 
+# multiply test
 def multiply_els(arr)
   arr.my_inject { |a, b| a * b }
 end
