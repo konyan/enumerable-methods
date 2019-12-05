@@ -18,7 +18,7 @@ Metrics/AbcSize:
 Metrics/ClassLength:
   Max: 150
 Metrics/BlockLength:
-  ExcludedMethods: ['describe']
+  ExcludedMethods: ["describe"]
 Metrics/CyclomaticComplexity:
   Max: 13
 
@@ -43,6 +43,5 @@ Layout/ExtraSpacing:
 Layout/MultilineMethodCallIndentation:
   Enabled: true
   EnforcedStyle: indented
-Lint/Syntax:
-  Enabled: false
-  
+AllCops:
+  TargetRubyVersion: 2.2
