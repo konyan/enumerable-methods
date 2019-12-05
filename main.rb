@@ -37,8 +37,8 @@ module Enumerable #:nodoc:
     elsif !arg.nil?
       if arg.is_a?(Regexp)
         my_each { |x| return false unless arg =~ x.to_s }
-      elsif 
-        my_each { |x| return false unless x.is_a?(arg)}
+      else
+        my_each { |x| return false unless x.is_a?(arg) }
       end
     else
       my_each { |x| return false unless x }
@@ -46,11 +46,18 @@ module Enumerable #:nodoc:
     true
   end
 
-  def my_any?
-    return false if size < 1
-    return true unless block_given?
-
-    my_each { |x| return true if yield(x) }
+  def my_any?(arg = nil)
+    if block_given? && arg.nil?
+      my_each { |x| return true if yield(x) }
+    elsif arg.nil?
+      my_each { |x| return true if x }
+    elsif arg
+      my_each { |x| return true if class_regex(x, arg) }
+    elsif !block_given? && arg.nil?
+      my_each { |x| return true if x }
+    else
+      my_each { |x| return true if arg == x }
+    end
     false
   end
 
@@ -95,29 +102,40 @@ module Enumerable #:nodoc:
     arr
   end
 
-  def my_inject(*args)
-    init = args.size.positive?
-    acc = init ? args[0] : self[0]
-    drop(init ? 0 : 1).my_each { |item| acc = yield(acc, item) }
-    acc
+  def my_inject(arg = nil)
+    acc = nil
+    nxt = nil
+    start = nil
+    if arg.nil?
+      acc = self[0]
+      nxt = self[1]
+      start = 1
+    else
+      acc = arg
+      nxt = self[0]
+      start = 0
+    end
+
+    return unless block_given?
+      [start...size].each do |i|
+        acc = yield(acc, nxt)
+        nxt = self[i + 1]
+      end
+      acc
+    end
+  end
+
+  def class_regex(alpha, arg)
+    if arg.is_a?(Regexp)
+      return true if alpha.to_s.match(arg)
+    elsif arg.is_a?(String) || arg.is_a?(Integer) || arg.is_a?(Symbol)
+      return true if alpha == arg
+    elsif arg.is_a?(Class)
+      return true if alpha.instance_of? arg
+    end
   end
 end
 
 def multiply_els(arr)
-  multiplied_arr = arr
-  multiplied_arr.my_inject do |x, y|
-    x * y
-  end
+  arr.my_inject { |a, b| a * b }
 end
-
-
-p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
-p %w[ant bear cat].my_all?(/t/)                        #=> false
-p [1, 2i, 3.14].my_all?(Numeric)                       #=> true
-p [nil, true, 99].my_all?                              #=> false
-p [].my_all?                                           #=> true
-
-array = [1,2,5,4,7]
-p array.my_all? 
-p array.all? # false
