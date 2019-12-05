@@ -2,6 +2,8 @@
 
 module Enumerable #:nodoc:
   def my_each
+    return to_enum(:my_each) unless block_given?
+
     i = 0
     while i < size
       yield(self[i])
@@ -29,11 +31,18 @@ module Enumerable #:nodoc:
     new_array
   end
 
-  def my_all?
-    return true if size < 1
-    return false if block_given? && nil? || !block_given?
-
-    my_each { |x| return false unless yield(x) }
+  def my_all?(arg = nil)
+    if block_given?
+      my_each { |x| return false unless yield(x) }
+    elsif !arg.nil?
+      if arg.is_a?(Regexp)
+        my_each { |x| return false unless arg =~ x.to_s }
+      elsif 
+        my_each { |x| return false unless x.is_a?(arg)}
+      end
+    else
+      my_each { |x| return false unless x }
+    end
     true
   end
 
@@ -100,3 +109,15 @@ def multiply_els(arr)
     x * y
   end
 end
+
+
+p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+p %w[ant bear cat].my_all?(/t/)                        #=> false
+p [1, 2i, 3.14].my_all?(Numeric)                       #=> true
+p [nil, true, 99].my_all?                              #=> false
+p [].my_all?                                           #=> true
+
+array = [1,2,5,4,7]
+p array.my_all? 
+p array.all? # false
