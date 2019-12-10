@@ -37,8 +37,10 @@ module Enumerable #:nodoc:
     elsif !arg.nil?
       if arg.is_a?(Regexp)
         my_each { |x| return false unless arg =~ x.to_s }
-      else
+      elsif arg.is_a?(Class)
         my_each { |x| return false unless x.is_a?(arg) }
+      else 
+        my_each { |x| return false unless x == arg}
       end
     else
       my_each { |x| return false unless x }
@@ -67,8 +69,10 @@ module Enumerable #:nodoc:
     elsif !arg.nil?
       if arg.is_a?(Regexp)
         my_each { |x| return false if pattern =~ x.to_s }
-      else
+      elsif arg.is_a?(Class)
         my_each { |x| return false if x.is_a?(pattern) }
+      else
+        my_each { |x| return false if x == arg }
       end
     else
       my_each { |x| return false if x }
@@ -103,25 +107,25 @@ module Enumerable #:nodoc:
   end
 
   def my_inject(arg = nil)
-    acc = nil
-    nxt = nil
-    start = nil
-    if arg.nil?
-      acc = self[0]
-      nxt = self[1]
-      start = 1
+    my_arr = to_a
+    if block_given?
+      my_arr = dup.to_a
+      result = args[0].nil? ? my_arr[0] : args[0]
+      my_arr.shift if args[0].nil?
+      my_arr.my_each { |number| result = yield(result, number) }
     else
-      acc = arg
-      nxt = self[0]
-      start = 0
-    end
-    return unless block_given?
-      [start...size].each do |i|
-        acc = yield(acc, nxt)
-        nxt = self[i + 1]
+      my_arr = to_a
+      if args[1].nil?
+        symbol = args[0]
+        result = my_arr[0]
+        my_arr[1..-1].my_each { |i| result = result.send(symbol, i) }
+      else
+        symbol = args[1]
+        result = args[0]
+        my_arr.my_each { |i| result = result.send(symbol, i) }
       end
-      acc
     end
+    result
   end
 
   def class_regex(alpha, arg)
@@ -133,6 +137,7 @@ module Enumerable #:nodoc:
       return true if alpha.instance_of? arg
     end
   end
+  
 end
 
 # multiply test
