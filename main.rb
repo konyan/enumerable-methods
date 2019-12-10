@@ -106,7 +106,7 @@ module Enumerable #:nodoc:
     arr
   end
 
-  def my_inject(arg = nil)
+  def my_inject(*args)
     my_arr = to_a
     if block_given?
       my_arr = dup.to_a
