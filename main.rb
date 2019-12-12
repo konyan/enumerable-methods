@@ -68,9 +68,9 @@ module Enumerable #:nodoc:
       my_each { |x| return false if yield(x) }
     elsif !arg.nil?
       if arg.is_a?(Regexp)
-        my_each { |x| return false if pattern =~ x.to_s }
+        my_each { |x| return false if arg =~ x.to_s }
       elsif arg.is_a?(Class)
-        my_each { |x| return false if x.is_a?(pattern) }
+        my_each { |x| return false if x.is_a?(arg) }
       else
         my_each { |x| return false if x == arg }
       end
